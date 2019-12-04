@@ -1,0 +1,73 @@
+require 'fastlane/action'
+require 'poesie/lib'
+
+module Fastlane
+  module Actions
+    class PoesieAction < Action
+      def self.run(params)
+        UI.message("Plugin si working!")
+        # exporter = Poesie::Exporter.new(params[:api_token], params[:project_id])
+        # exporter.run(options[:lang]) do |terms|
+        #   Poesie::Log::title("== Language #{options[:lang]} ==")
+      
+        #   # Localizable.strings
+        #   Poesie::AppleFormatter::write_strings_file(
+        #     terms,
+        #     params[:localizable_strings],
+        #     substitutions: nil,
+        #     print_date: nil
+        #   )
+      
+        #   # Localizable.stringsdict
+        #   strings_dict_path = options[:localizable_strings].gsub(/\.strings$/,'.stringsdict')
+        #   Poesie::AppleFormatter::write_stringsdict_file(
+        #     terms,
+        #     strings_dict_path,
+        #     substitutions: nil,
+        #     print_date: nil
+        #   )
+          
+      end
+
+      def self.description
+        "Exports translations from POEditor using poesie tool."
+      end
+
+      def self.authors
+        ["Patrik Potoček"]
+      end
+
+      def self.available_options
+        [
+          FastlaneCore::ConfigItem.new(key: :api_token,
+            env_name: "POEDITOR_API_TOKEN",
+            description: "The API token for a POEditor.com Account",
+            optional: false,
+            type: String),
+          FastlaneCore::ConfigItem.new(key: :project_id,
+            env_name: "POEDITOR_PROJECT_ID",
+            description: "The ID of the POEditor.com Project",
+            optional: false,
+            type: String),
+          FastlaneCore::ConfigItem.new(key: :languages,
+            env_name: "POEDITOR_EXPORT_LANGUAGES",
+            description: "The languages to export",
+            optional: false,
+            type: String),
+          FastlaneCore::ConfigItem.new(key: :string_files_path,
+            env_name: "POEDITOR_STRING_FILES_PATH",
+            description: "The path to localized string files."
+            optional: false,
+            type: String)
+        ]
+      end
+
+      def self.is_supported?(platform)
+        # Adjust this if your plugin only works for a particular platform (iOS vs. Android, for example)
+        # See: https://docs.fastlane.tools/advanced/#control-configuration-by-lane-and-by-platform
+        #
+        [:ios, :mac].include?(platform)
+      end
+    end
+  end
+end
