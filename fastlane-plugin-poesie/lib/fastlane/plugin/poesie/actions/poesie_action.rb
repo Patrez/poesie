@@ -56,7 +56,7 @@ module Fastlane
             type: String),
           FastlaneCore::ConfigItem.new(key: :string_files_path,
             env_name: "POEDITOR_STRING_FILES_PATH",
-            description: "The path to localized string files."
+            description: "The path to localized string files",
             optional: false,
             type: String)
         ]
