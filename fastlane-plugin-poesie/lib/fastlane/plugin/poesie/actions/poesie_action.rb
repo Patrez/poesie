@@ -1,32 +1,32 @@
 require 'fastlane/action'
-require 'poesie/lib'
+require 'poesie'
 
 module Fastlane
   module Actions
     class PoesieAction < Action
       def self.run(params)
-        UI.message("Plugin si working!")
-        # exporter = Poesie::Exporter.new(params[:api_token], params[:project_id])
-        # exporter.run(options[:lang]) do |terms|
-        #   Poesie::Log::title("== Language #{options[:lang]} ==")
-      
-        #   # Localizable.strings
-        #   Poesie::AppleFormatter::write_strings_file(
-        #     terms,
-        #     params[:localizable_strings],
-        #     substitutions: nil,
-        #     print_date: nil
-        #   )
-      
-        #   # Localizable.stringsdict
-        #   strings_dict_path = options[:localizable_strings].gsub(/\.strings$/,'.stringsdict')
-        #   Poesie::AppleFormatter::write_stringsdict_file(
-        #     terms,
-        #     strings_dict_path,
-        #     substitutions: nil,
-        #     print_date: nil
-        #   )
-          
+        exporter = ::Poesie::Exporter.new(params[:api_token], params[:project_id])
+        params[:languages].each do |language|
+          ::Poesie::Log::title("== Language #{language} ==")
+          exporter.run(language) do |terms|
+            # Localizable.strings
+            ::Poesie::AppleFormatter::write_strings_file(
+              terms,
+              params[:string_files_path],
+              substitutions: nil,
+              print_date: nil
+            )
+
+            # Localizable.stringsdict
+            # strings_dict_path = options[:localizable_strings].gsub(/\.strings$/,'.stringsdict')
+            # ::Poesie::AppleFormatter::write_stringsdict_file(
+            #   terms,
+            #   strings_dict_path,
+            #   substitutions: nil,
+            #   print_date: nil
+            # )
+          end
+        end
       end
 
       def self.description
@@ -53,7 +53,7 @@ module Fastlane
             env_name: "POEDITOR_EXPORT_LANGUAGES",
             description: "The languages to export",
             optional: false,
-            type: String),
+            type: Array),
           FastlaneCore::ConfigItem.new(key: :string_files_path,
             env_name: "POEDITOR_STRING_FILES_PATH",
             description: "The path to localized string files",
