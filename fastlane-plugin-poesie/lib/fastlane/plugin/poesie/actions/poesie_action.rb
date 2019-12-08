@@ -18,13 +18,13 @@ module Fastlane
             )
 
             # Localizable.stringsdict
-            # strings_dict_path = options[:localizable_strings].gsub(/\.strings$/,'.stringsdict')
-            # ::Poesie::AppleFormatter::write_stringsdict_file(
-            #   terms,
-            #   strings_dict_path,
-            #   substitutions: nil,
-            #   print_date: nil
-            # )
+            strings_dict_path = options[:localizable_strings].gsub(/\.strings$/,'.stringsdict')
+            ::Poesie::AppleFormatter::write_stringsdict_file(
+              terms,
+              strings_dict_path,
+              substitutions: nil,
+              print_date: nil
+            )
           end
         end
       end
