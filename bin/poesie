@@ -4,15 +4,10 @@ if RUBY_VERSION < '2.0.0'
   abort 'error: poesie requires Ruby 2 or higher.'
 end
 
-if $0 == __FILE__
-  $:.unshift File.expand_path('../lib', File.dirname(__FILE__))
-end
-
 begin
   require 'optparse'
   require 'yaml'
-  require File.expand_path('../lib/poesie', File.dirname(__FILE__))
-  require File.expand_path('../lib/version', File.dirname(__FILE__))
+  require 'poesie'
 rescue LoadError => e
   abort 'error: missing some dependencies for poesie. Be sure to install it using `gem install` or to run `bundle installl` to install dependencies - ' + e.message
 end
