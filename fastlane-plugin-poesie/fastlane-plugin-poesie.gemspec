@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = 'patrik.potocek@thefuntasty.com'
 
   spec.summary       = 'Exports translations from POEditor using poesie tool.'
-  # spec.homepage      = "https://github.com/<GITHUB_USERNAME>/fastlane-plugin-poesie"
+  spec.homepage      = "https://github.com/Patrez/poesie"
   spec.license       = "MIT"
 
   spec.files         = Dir["lib/**/*"] + %w(README.md LICENSE)
