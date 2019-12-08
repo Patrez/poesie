@@ -8,17 +8,18 @@ module Fastlane
         exporter = ::Poesie::Exporter.new(params[:api_token], params[:project_id])
         params[:languages].each do |language|
           ::Poesie::Log::title("== Language #{language} ==")
+          string_path = params[:string_files_path] + language + ".lproj/Localizable.strings"
           exporter.run(language) do |terms|
             # Localizable.strings
             ::Poesie::AppleFormatter::write_strings_file(
               terms,
-              params[:string_files_path],
+              string_path,
               substitutions: nil,
               print_date: nil
             )
 
             # Localizable.stringsdict
-            strings_dict_path = options[:localizable_strings].gsub(/\.strings$/,'.stringsdict')
+            strings_dict_path = string_path.gsub(/\.strings$/,'.stringsdict')
             ::Poesie::AppleFormatter::write_stringsdict_file(
               terms,
               strings_dict_path,
@@ -50,12 +51,12 @@ module Fastlane
             optional: false,
             type: String),
           FastlaneCore::ConfigItem.new(key: :languages,
-            env_name: "POEDITOR_EXPORT_LANGUAGES",
+            env_name: "POEDITOR_SUPPORTED_LANGUAGES",
             description: "The languages to export",
             optional: false,
             type: Array),
           FastlaneCore::ConfigItem.new(key: :string_files_path,
-            env_name: "POEDITOR_STRING_FILES_PATH",
+            env_name: "PROJECT_STRING_FILES_PATH",
             description: "The path to localized string files",
             optional: false,
             type: String)
